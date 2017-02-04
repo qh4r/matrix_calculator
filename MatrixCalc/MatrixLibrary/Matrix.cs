@@ -92,12 +92,19 @@ namespace MatrixLibrary
 
         public static Matrix operator *(Matrix matrix1, Matrix matrix2)
         {
-            if (matrix2.RowsCount != matrix1.ColumnsCount)
+            if (matrix2.RowsCount == matrix1.ColumnsCount)
             {
-                throw new Exception("Matrixes can not be multiplied");
+                return PerformCalculations(matrix1, matrix2);
             }
-            var result = new Matrix(matrix1.RowsCount, matrix2.ColumnsCount);
+            else
+            {
+                throw new Exception("Matrixes can not be multiplied - number of columns in 1st must be equal to number of rows in 2nd");
+            }
+        }
 
+        private static Matrix PerformCalculations(Matrix matrix1, Matrix matrix2)
+        {
+            var result = new Matrix(matrix1.RowsCount, matrix2.ColumnsCount);
             for (var i = 0; i < matrix1.RowsCount; i++)
             {
                 for (var j = 0; j < matrix2.ColumnsCount; j++)
