@@ -19,7 +19,7 @@ namespace MatrixCalc.Controls
         }
 
         public static readonly DependencyProperty RowsCountProperty =
-            DependencyProperty.Register("RowsCount", typeof(int), typeof(BindableUniformGrid), new PropertyMetadata(1, OnRowsCountChange));
+            DependencyProperty.Register("RowsCount", typeof(int), typeof(BindableUniformGrid), new PropertyMetadata(0, OnRowsCountChange));
 
         private static void OnRowsCountChange(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
         {
@@ -38,7 +38,7 @@ namespace MatrixCalc.Controls
         }
 
         public static readonly DependencyProperty ColumnsCountProperty =
-            DependencyProperty.Register("ColumnsCount", typeof(int), typeof(BindableUniformGrid), new PropertyMetadata(1, OnColumnsCountChange));
+            DependencyProperty.Register("ColumnsCount", typeof(int), typeof(BindableUniformGrid), new PropertyMetadata(0, OnColumnsCountChange));
 
         private static void OnColumnsCountChange(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
         {

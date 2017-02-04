@@ -43,15 +43,15 @@ namespace MatrixLibrary
             }
         }
 
+        public int RowsCount { get; }
+
+        public int ColumnsCount { get; }
+
         public double this[int iRow, int iCol]
         {
             get { return this.matrix[iRow, iCol]; }
             set { this.matrix[iRow, iCol] = value; }
         }
-
-        public int RowsCount { get; }
-
-        public int ColumnsCount { get; }
 
         public void SetColumn(int columnNumber, IEnumerable<double> elements)
         {
@@ -105,7 +105,7 @@ namespace MatrixLibrary
                     double tmp = 0;
                     for (var k = 0; k < matrix2.RowsCount; k++)
                     {
-                        tmp += matrix1[i, k] * matrix1[k, j];
+                        tmp += matrix1[i, k] * matrix2[k, j];
                     }
                     result[i, j] = tmp;
                 }
@@ -130,19 +130,10 @@ namespace MatrixLibrary
             }
         }
 
-        public IEnumerator<double> GetEnumerator()
-        {
-            return this.matrix.Cast<double>().GetEnumerator();
-        }
+        public IEnumerator<double> GetEnumerator() => this.matrix.Cast<double>().GetEnumerator();
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return this.GetEnumerator();
-        }
+        IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
 
-        public double GetSum()
-        {
-            return this.Aggregate(0.0, (sum, elem) => sum + elem);
-        }
+        public double GetSum() => this.Aggregate(0.0, (sum, elem) => sum + elem);
     }
 }

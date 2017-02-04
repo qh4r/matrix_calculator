@@ -4,9 +4,116 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MatrixCalc"
+        xmlns:controls="clr-namespace:MatrixCalc.Controls"
+        xmlns:system="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
+    <Window.DataContext>
+        <Binding Source="{StaticResource Locator}" Path="Main"/>
+    </Window.DataContext>
+    <Window.Resources>
+        <DataTemplate x:Key="CellTemplate">
+            <Border BorderThickness="1" BorderBrush="Black">
+                <Viewbox Stretch="Uniform" StretchDirection="Both">
+                    <TextBox BorderThickness="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                         HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                                 Text="{Binding ValueString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                </Viewbox>
+            </Border>
+        </DataTemplate>
+        <system:String x:Key="FirstMatrix">firstMatrix</system:String>
+        <system:String x:Key="SecondMatrix">secondMatrix</system:String>
+        <Style TargetType="TextBlock">
+            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+        </Style>
+    </Window.Resources>
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition MinHeight="60" Height="Auto"/>
+            </Grid.RowDefinitions>
+            <ItemsControl Grid.Row="0" ItemsSource="{Binding FirstMatrix.CellsCollection}" ItemTemplate="{StaticResource CellTemplate}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <controls:BindableUniformGrid RowsCount="{Binding FirstMatrix.Rows}" ColumnsCount="{Binding FirstMatrix.Columns}"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Command="{Binding SubtractRow}" CommandParameter="{StaticResource FirstMatrix}">-</Button>
+                <TextBlock Grid.Column="1"> - Rows - </TextBlock>
+                <Button Grid.Column="2" Command="{Binding AddRow}" CommandParameter="{StaticResource FirstMatrix}">+</Button>
+                <Button Command="{Binding PrintMatrix}" Grid.Column="3">print</Button>
+                <Button Grid.Column="4" Command="{Binding SubtractColumn}" CommandParameter="{StaticResource FirstMatrix}">-</Button>
+                <TextBlock Grid.Column="5"> - Columns -</TextBlock>
+                <Button Grid.Column="6" Command="{Binding AddColumn}" CommandParameter="{StaticResource FirstMatrix}">+</Button>
+            </Grid>
+        </Grid>
+        <ComboBox VerticalAlignment="Center" ItemsSource="{Binding OperationTypes}" FontSize="40"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                  SelectedItem="{Binding OperationType, Mode=TwoWay}" Grid.Column="1">
+        </ComboBox>
+        <Grid Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition MinHeight="60" Height="Auto"/>
+            </Grid.RowDefinitions>
+            <ItemsControl Grid.Row="0" ItemsSource="{Binding SecondMatrix.CellsCollection}" ItemTemplate="{StaticResource CellTemplate}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <controls:BindableUniformGrid RowsCount="{Binding SecondMatrix.Rows}" ColumnsCount="{Binding SecondMatrix.Columns}"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Command="{Binding SubtractRow}" CommandParameter="{StaticResource SecondMatrix}">-</Button>
+                <TextBlock Grid.Column="1"> - Rows -</TextBlock>
+                <Button Grid.Column="2" Command="{Binding AddRow}" CommandParameter="{StaticResource SecondMatrix}">+</Button>
+                <Button Command="{Binding PrintMatrix}" Grid.Column="3">print</Button>
+                <Button Grid.Column="4" Command="{Binding SubtractColumn}" CommandParameter="{StaticResource SecondMatrix}">-</Button>
+                <TextBlock Grid.Column="5"> - Columns -</TextBlock>
+                <Button Grid.Column="6" Command="{Binding AddColumn}" CommandParameter="{StaticResource SecondMatrix}">+</Button>
+            </Grid>
+        </Grid>
+        <Button Content="=" Grid.Column="3" VerticalAlignment="Center" Command="{Binding PerformCalculationCommand}"
+                FontSize="40"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        <Grid Grid.Column="4" Visibility="{Binding ResultPresent, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition MinHeight="60" Height="Auto"/>
+            </Grid.RowDefinitions>
+            <ItemsControl Grid.Row="0" ItemsSource="{Binding ResultMatrix.CellsCollection}" ItemTemplate="{StaticResource CellTemplate}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <controls:BindableUniformGrid RowsCount="{Binding ResultMatrix.Rows}" ColumnsCount="{Binding ResultMatrix.Columns}"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </Grid>
     </Grid>
 </Window>
