@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IMatrixRepository.cs" />
     <Compile Include="Migrations\Types\MatrixEntity.cs" />
     <Compile Include="MatrixesContext.cs" />
     <Compile Include="Migrations\Types\MatrixMeta.cs" />
