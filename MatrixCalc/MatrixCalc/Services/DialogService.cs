@@ -43,5 +43,12 @@ namespace MatrixCalc.Services
             var dialog = new SaveMatrixWindow();
             dialog.ShowDialog();
         }
+
+        public void OpenLoadWindow(MatrixName matrixName)
+        {
+            SetTransportationData(matrixName);
+            var dialog = new LoadWindow();
+            dialog.ShowDialog();
+        }
     }
 }

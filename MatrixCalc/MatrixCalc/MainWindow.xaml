@@ -8,7 +8,7 @@
         xmlns:system="clr-namespace:System;assembly=mscorlib"
         xmlns:models="clr-namespace:MatrixCalc.Models"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" MinWidth="800">
+        Title="Matrix Calculator" Height="350" MinWidth="800">
     <Window.DataContext>
         <Binding Source="{StaticResource Locator}" Path="Main"/>
     </Window.DataContext>
@@ -24,6 +24,7 @@
         </DataTemplate>
         <models:MatrixName x:Key="FirstMatrix">FirstMatrix</models:MatrixName>
         <models:MatrixName x:Key="SecondMatrix">SecondMatrix</models:MatrixName>
+        <models:MatrixName x:Key="ResultMatrix">ResultMatrix</models:MatrixName>
         <Style TargetType="TextBlock">
             <Setter Property="VerticalAlignment" Value="Center"></Setter>
         </Style>
@@ -110,18 +111,19 @@
         </Grid>
         <Button Content="=" Grid.Column="3" VerticalAlignment="Center" Command="{Binding PerformCalculationCommand}"
                 FontSize="40"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-        <Grid Grid.Column="4" Visibility="{Binding ResultPresent, Converter={StaticResource BooleanToVisibilityConverter}}">
+        <Grid Grid.Column="4" Visibility="{Binding MatrixesStore.ResultPresent, Converter={StaticResource BooleanToVisibilityConverter}}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition MinHeight="60" Height="Auto"/>
             </Grid.RowDefinitions>
-            <ItemsControl Grid.Row="0" ItemsSource="{Binding ResultMatrix.CellsCollection}" ItemTemplate="{StaticResource CellTemplate}">
+            <ItemsControl Grid.Row="0" ItemsSource="{Binding MatrixesStore.ResultMatrix.CellsCollection}" ItemTemplate="{StaticResource CellTemplate}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <controls:BindableUniformGrid RowsCount="{Binding ResultMatrix.Rows}" ColumnsCount="{Binding ResultMatrix.Columns}"/>
+                        <controls:BindableUniformGrid RowsCount="{Binding MatrixesStore.ResultMatrix.Rows}" ColumnsCount="{Binding MatrixesStore.ResultMatrix.Columns}"/>
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
             </ItemsControl>
+            <Button Grid.Row="1"  Command="{Binding SaveMatrix}" CommandParameter="{StaticResource ResultMatrix}" Margin="30, 0">Save</Button>
         </Grid>
     </Grid>
 </Window>

@@ -75,7 +75,7 @@ namespace MatrixLibrary
             if (matrix1.RowsCount != matrix2.RowsCount || matrix1.ColumnsCount != matrix2.ColumnsCount) throw new Exception("Matrix dimensions must match!");
             var r = new Matrix(matrix1.RowsCount, matrix1.ColumnsCount);
             for (var i = 0; i < r.RowsCount; i++)
-                for (var j = 0; j < r.RowsCount; j++)
+                for (var j = 0; j < r.ColumnsCount; j++)
                     r[i, j] = matrix1[i, j] + matrix2[i, j];
             return r;
         }
@@ -85,7 +85,7 @@ namespace MatrixLibrary
             if (matrix1.RowsCount != matrix2.RowsCount || matrix1.ColumnsCount != matrix2.ColumnsCount) throw new Exception("Matrix dimensions must match!");
             var r = new Matrix(matrix1.RowsCount, matrix1.ColumnsCount);
             for (var i = 0; i < r.RowsCount; i++)
-                for (var j = 0; j < r.RowsCount; j++)
+                for (var j = 0; j < r.ColumnsCount; j++)
                     r[i, j] = matrix1[i, j] - matrix2[i, j];
             return r;
         }

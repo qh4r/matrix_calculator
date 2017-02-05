@@ -27,28 +27,12 @@ namespace MatrixCalc.ViewModel
         {
             this.dialogService = dialogService;
             this.MatrixesStore = matrixesStore;
-            ResultMatrix = null;
             OperationType = this.OperationTypes.First();
         }
 
         public MatrixesStore MatrixesStore { get; }
 
-        public List<string> OperationTypes { get; } = new List<string> {"+", "-", "*"};
-
-        public MatrixModel ResultMatrix
-        {
-            get
-            {
-                return resultMatrix;
-            }
-            set
-            {
-                Set(ref resultMatrix, value);
-                this.RaisePropertyChanged(() => ResultPresent);
-            }
-        }
-
-        public bool ResultPresent => ResultMatrix != null;
+        public List<string> OperationTypes { get; } = new List<string> {"+", "-", "*"};   
         
         public string OperationType
         {
@@ -71,7 +55,7 @@ namespace MatrixCalc.ViewModel
         public RelayCommand PerformCalculationCommand => new RelayCommand(
             () =>
                 {
-                    ResultMatrix = PerformCalculation();
+                    MatrixesStore.ResultMatrix = PerformCalculation();
                 });     
 
         public RelayCommand<MatrixName> AddRow => new RelayCommand<MatrixName>(
@@ -130,7 +114,11 @@ namespace MatrixCalc.ViewModel
                     dialogService.OpenSaveWindow(x);
                 });
 
-        public RelayCommand<MatrixName> LoadMatrix => new RelayCommand<MatrixName>(x => { });
+        public RelayCommand<MatrixName> LoadMatrix => new RelayCommand<MatrixName>(
+            x =>
+                {
+                    this.dialogService.OpenLoadWindow(x);
+                });
 
         private MatrixModel PerformCalculation()
         {

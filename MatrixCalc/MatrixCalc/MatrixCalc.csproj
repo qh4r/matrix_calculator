@@ -87,6 +87,9 @@
     <Compile Include="Controls\BindableWindow.cs" />
     <Compile Include="Converters\BooleanToNegativeVisibilityConverter.cs" />
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="LoadWindow.xaml.cs">
+      <DependentUpon>LoadWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Models\MatrixModel.cs" />
     <Compile Include="SaveMatrixWindow.xaml.cs">
       <DependentUpon>SaveMatrixWindow.xaml</DependentUpon>
@@ -94,10 +97,15 @@
     <Compile Include="Services\DialogService.cs" />
     <Compile Include="Services\MatrixesStore.cs" />
     <Compile Include="Models\MatrixName.cs" />
+    <Compile Include="ViewModel\LoadViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\SaveViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Page Include="Converters\Converters.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LoadWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -32,7 +32,8 @@ namespace MatrixesDb
 
         public IEnumerable<MatrixMeta> GetMatrixesList()
         {
-            return this.context.Matrixes.Select(x => new MatrixMeta(x.Id, x.Name)).ToList();
+            var list = this.context.Matrixes.Select(x => new { x.Id, x.Name }).ToList();
+            return list.Select(x => new MatrixMeta(x.Id, x.Name));
         }
 
         public Matrix GetMatrixDetails(long id)

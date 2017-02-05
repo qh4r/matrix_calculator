@@ -17,11 +17,14 @@ namespace MatrixCalc.ViewModel
             SimpleIoc.Default.Register<DialogService>();
             SimpleIoc.Default.Register<MatrixesStore>();
             SimpleIoc.Default.Register<SaveViewModel>();
+            SimpleIoc.Default.Register<LoadViewModel>();
             SimpleIoc.Default.Register<MainViewModel>();
         }
 
         public MainViewModel Main => SimpleIoc.Default.GetInstance<MainViewModel>();
 
         public SaveViewModel Save => SimpleIoc.Default.GetInstanceWithoutCaching<SaveViewModel>();
+
+        public LoadViewModel Load => SimpleIoc.Default.GetInstanceWithoutCaching<LoadViewModel>();
     }
 }

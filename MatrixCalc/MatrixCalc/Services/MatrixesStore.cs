@@ -18,10 +18,13 @@ namespace MatrixCalc.Services
 
         private MatrixModel firstMatrix;
 
+        private MatrixModel resultMatrix;
+
         public MatrixesStore()
         {
             FirstMatrix = new MatrixModel(new Matrix(2, 2));
             SecondMatrix = new MatrixModel(new Matrix(2, 2));
+            ResultMatrix = null;
         }
 
         public MatrixModel SecondMatrix
@@ -47,5 +50,20 @@ namespace MatrixCalc.Services
                 Set(ref firstMatrix, value);
             }
         }
+
+        public MatrixModel ResultMatrix
+        {
+            get
+            {
+                return resultMatrix;
+            }
+            set
+            {
+                Set(ref resultMatrix, value);
+                this.RaisePropertyChanged(() => ResultPresent);
+            }
+        }
+
+        public bool ResultPresent => ResultMatrix != null;
     }
 }

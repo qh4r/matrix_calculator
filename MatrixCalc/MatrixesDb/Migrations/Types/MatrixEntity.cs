@@ -8,6 +8,11 @@
 
     internal class MatrixEntity
     {
+        public MatrixEntity()
+        {
+            
+        }
+
         public MatrixEntity(IMatrix matrix, string name)
         {
             this.Name = name;

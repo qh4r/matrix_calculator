@@ -8,6 +8,7 @@ namespace MatrixCalc.ViewModel
 {
     using GalaSoft.MvvmLight;
     using GalaSoft.MvvmLight.Command;
+    using GalaSoft.MvvmLight.Threading;
     using GalaSoft.MvvmLight.Views;
 
     using MatrixCalc.Models;
@@ -28,6 +29,8 @@ namespace MatrixCalc.ViewModel
         private bool isClosed;
 
         private MatrixName matrxSelection;
+
+        private bool isProcessing;
 
         public SaveViewModel(DialogService dialogService, IMatrixRepository matrixRepository, MatrixesStore matrixesStore)
         {
@@ -57,12 +60,45 @@ namespace MatrixCalc.ViewModel
         public RelayCommand SaveCommand => new RelayCommand(
             async () =>
                 {
-                    await this.matrixRepository.SaveMatrix(this.matrxSelection == Models.MatrixName.FirstMatrix 
-                        ? this.matrixesStore.FirstMatrix.Matrix
-                        : this.matrixesStore.SecondMatrix.Matrix,
-                        MatrixName);
-                    IsClosed = true;
+                    if (!IsProcessing)
+                    {
+                        IsProcessing = true;
+
+                        await new TaskFactory().StartNew(
+                            async () =>
+                                {
+                                    await
+                                        this.matrixRepository.SaveMatrix(
+                                            this.matrxSelection == Models.MatrixName.FirstMatrix
+                                                ? this.matrixesStore.FirstMatrix.Matrix
+                                                : this.matrxSelection == Models.MatrixName.SecondMatrix
+                                                      ? this.matrixesStore.SecondMatrix.Matrix
+                                                      : this.matrixesStore.ResultMatrix.Matrix,
+                                            MatrixName);
+                                }).ContinueWith(
+                                    async x =>
+                                        {
+                                            await DispatcherHelper.RunAsync(
+                                                () =>
+                                                    {
+                                                        IsProcessing = false;
+                                                        IsClosed = true;
+                                                    });
+                                        });
+                    }
                 });
+
+        public bool IsProcessing
+        {
+            get
+            {
+                return isProcessing;
+            }
+            set
+            {
+                Set(ref isProcessing, value);
+            }
+        }
 
         public bool IsClosed
         {

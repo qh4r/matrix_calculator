@@ -3,6 +3,7 @@
     public enum MatrixName
     {
         FirstMatrix,
-        SecondMatrix
+        SecondMatrix,
+        ResultMatrix
     }
 }
