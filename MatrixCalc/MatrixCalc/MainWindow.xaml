@@ -7,7 +7,7 @@
         xmlns:controls="clr-namespace:MatrixCalc.Controls"
         xmlns:system="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="350" MinWidth="800">
     <Window.DataContext>
         <Binding Source="{StaticResource Locator}" Path="Main"/>
     </Window.DataContext>
@@ -25,6 +25,9 @@
         <system:String x:Key="SecondMatrix">secondMatrix</system:String>
         <Style TargetType="TextBlock">
             <Setter Property="VerticalAlignment" Value="Center"></Setter>
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="MinWidth" Value="30px"></Setter>
         </Style>
     </Window.Resources>
     <Grid>

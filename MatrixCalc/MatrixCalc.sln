@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MatrixCalc", "MatrixCalc\Ma
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MatrixLibrary", "MatrixLibrary\MatrixLibrary.csproj", "{E128E995-D3D2-4935-B7A3-973D46C2AFBF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MatrixesDb", "MatrixesDb\MatrixesDb.csproj", "{8967B801-EC67-4F21-9F6D-6BF5A76CEC98}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{E128E995-D3D2-4935-B7A3-973D46C2AFBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E128E995-D3D2-4935-B7A3-973D46C2AFBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E128E995-D3D2-4935-B7A3-973D46C2AFBF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8967B801-EC67-4F21-9F6D-6BF5A76CEC98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8967B801-EC67-4F21-9F6D-6BF5A76CEC98}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8967B801-EC67-4F21-9F6D-6BF5A76CEC98}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8967B801-EC67-4F21-9F6D-6BF5A76CEC98}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

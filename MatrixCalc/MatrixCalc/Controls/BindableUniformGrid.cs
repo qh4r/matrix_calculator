@@ -10,8 +10,6 @@ namespace MatrixCalc.Controls
     using System.Windows.Controls.Primitives;
     public class BindableUniformGrid : UniformGrid
     {
-
-
         public int RowsCount
         {
             get { return (int)GetValue(RowsCountProperty); }
@@ -20,16 +18,6 @@ namespace MatrixCalc.Controls
 
         public static readonly DependencyProperty RowsCountProperty =
             DependencyProperty.Register("RowsCount", typeof(int), typeof(BindableUniformGrid), new PropertyMetadata(0, OnRowsCountChange));
-
-        private static void OnRowsCountChange(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
-        {
-            var grid = dependencyObject as BindableUniformGrid;
-            var newCount = dependencyPropertyChangedEventArgs.NewValue as int?;
-            if (newCount.HasValue && grid != null)
-            {
-                grid.Rows = newCount.Value;
-            }
-        }
 
         public int ColumnsCount
         {
@@ -47,6 +35,16 @@ namespace MatrixCalc.Controls
             if (newCount.HasValue && grid != null)
             {
                 grid.Columns = newCount.Value;
+            }
+        }
+
+        private static void OnRowsCountChange(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
+        {
+            var grid = dependencyObject as BindableUniformGrid;
+            var newCount = dependencyPropertyChangedEventArgs.NewValue as int?;
+            if (newCount.HasValue && grid != null)
+            {
+                grid.Rows = newCount.Value;
             }
         }
     }

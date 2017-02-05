@@ -126,6 +126,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\MatrixesDb\MatrixesDb.csproj">
+      <Project>{8967b801-ec67-4f21-9f6d-6bf5a76cec98}</Project>
+      <Name>MatrixesDb</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MatrixLibrary\MatrixLibrary.csproj">
       <Project>{e128e995-d3d2-4935-b7a3-973d46c2afbf}</Project>
       <Name>MatrixLibrary</Name>

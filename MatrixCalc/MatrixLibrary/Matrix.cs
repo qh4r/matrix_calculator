@@ -8,7 +8,7 @@ namespace MatrixLibrary
 {
     using System.Collections;
 
-    public class Matrix : IEnumerable<double>
+    public class Matrix : IMatrix
     {
         private readonly double[,] matrix;
 
