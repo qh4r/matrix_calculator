@@ -11,26 +11,27 @@ namespace MatrixCalc.ViewModel
     using GalaSoft.MvvmLight.Command;
 
     using MatrixCalc.Models;
+    using MatrixCalc.Services;
 
     using MatrixLibrary;
 
     public class MainViewModel : ViewModelBase
     {
-        private MatrixModel firstMatrix;
-
-        private MatrixModel secondMatrix;
+        private readonly DialogService dialogService;
 
         private MatrixModel resultMatrix;
 
         private string operationType;
 
-        public MainViewModel()
+        public MainViewModel(MatrixesStore matrixesStore, DialogService dialogService)
         {
-            FirstMatrix = new MatrixModel(new Matrix(2,2));
-            SecondMatrix = new MatrixModel(new Matrix(2,2));
+            this.dialogService = dialogService;
+            this.MatrixesStore = matrixesStore;
             ResultMatrix = null;
             OperationType = this.OperationTypes.First();
         }
+
+        public MatrixesStore MatrixesStore { get; }
 
         public List<string> OperationTypes { get; } = new List<string> {"+", "-", "*"};
 
@@ -48,36 +49,7 @@ namespace MatrixCalc.ViewModel
         }
 
         public bool ResultPresent => ResultMatrix != null;
-
-        public MatrixModel SecondMatrix
-        {
-            get
-            {
-                return secondMatrix;
-            }
-            set
-            {
-                Set(ref secondMatrix, value);
-            }
-        }
-
-        public MatrixModel FirstMatrix
-        {
-            get
-            {
-                return firstMatrix;
-            }
-            set
-            {
-                Set(ref firstMatrix, value);
-            }
-        }
-
-        public RelayCommand PrintMatrix => new RelayCommand(
-            () =>
-        Debug.WriteLine(
-            FirstMatrix.CellsCollection.Aggregate(string.Empty, (sum, next) => $"{sum}, {next.NumericValue().ToString()}")));
-
+        
         public string OperationType
         {
             get
@@ -100,7 +72,65 @@ namespace MatrixCalc.ViewModel
             () =>
                 {
                     ResultMatrix = PerformCalculation();
+                });     
+
+        public RelayCommand<MatrixName> AddRow => new RelayCommand<MatrixName>(
+            x =>
+                {
+                    if (x == MatrixName.FirstMatrix)
+                    {
+                        MatrixesStore.FirstMatrix = ChangeDimensions(MatrixesStore.FirstMatrix.Matrix, 1);
+                    }
+                    else
+                    {
+                        MatrixesStore.SecondMatrix = ChangeDimensions(MatrixesStore.SecondMatrix.Matrix, 1);
+                    }
                 });
+        public RelayCommand<MatrixName> SubtractRow => new RelayCommand<MatrixName>(
+            x =>
+            {
+                if (x == MatrixName.FirstMatrix)
+                {
+                    MatrixesStore.FirstMatrix = ChangeDimensions(MatrixesStore.FirstMatrix.Matrix, -1);
+                }
+                else
+                {
+                    MatrixesStore.SecondMatrix = ChangeDimensions(MatrixesStore.SecondMatrix.Matrix, -1);
+                }
+            });
+        public RelayCommand<MatrixName> AddColumn => new RelayCommand<MatrixName>(
+            x =>
+            {
+                if (x == MatrixName.FirstMatrix)
+                {
+                    MatrixesStore.FirstMatrix = ChangeDimensions(MatrixesStore.FirstMatrix.Matrix, 0, 1);
+                }
+                else
+                {
+                    MatrixesStore.SecondMatrix = ChangeDimensions(MatrixesStore.SecondMatrix.Matrix, 0, 1);
+                }
+            });
+
+        public RelayCommand<MatrixName> SubtractColumn => new RelayCommand<MatrixName>(
+            x =>
+            {
+                if (x == MatrixName.FirstMatrix)
+                {
+                    MatrixesStore.FirstMatrix = ChangeDimensions(MatrixesStore.FirstMatrix.Matrix, 0, -1);
+                }
+                else
+                {
+                    MatrixesStore.SecondMatrix = ChangeDimensions(MatrixesStore.SecondMatrix.Matrix, 0, -1);
+                }
+            });
+
+        public RelayCommand<MatrixName> SaveMatrix => new RelayCommand<MatrixName>(
+            x =>
+                {
+                    dialogService.OpenSaveWindow(x);
+                });
+
+        public RelayCommand<MatrixName> LoadMatrix => new RelayCommand<MatrixName>(x => { });
 
         private MatrixModel PerformCalculation()
         {
@@ -110,12 +140,12 @@ namespace MatrixCalc.ViewModel
                 {
 
                     case "-":
-                        return new MatrixModel(FirstMatrix.Matrix - SecondMatrix.Matrix);
+                        return new MatrixModel(MatrixesStore.FirstMatrix.Matrix - MatrixesStore.SecondMatrix.Matrix);
                     case "*":
-                        return new MatrixModel(FirstMatrix.Matrix * SecondMatrix.Matrix);
+                        return new MatrixModel(MatrixesStore.FirstMatrix.Matrix * MatrixesStore.SecondMatrix.Matrix);
                     case "+":
                     default:
-                        return new MatrixModel(FirstMatrix.Matrix + SecondMatrix.Matrix);
+                        return new MatrixModel(MatrixesStore.FirstMatrix.Matrix + MatrixesStore.SecondMatrix.Matrix);
                 }
             }
             catch (Exception e)
@@ -124,54 +154,5 @@ namespace MatrixCalc.ViewModel
                 return null;
             }
         }
-
-        public RelayCommand<string> AddRow => new RelayCommand<string>(
-            x =>
-                {
-                    if (x == "firstMatrix")
-                    {
-                        FirstMatrix = ChangeDimensions(FirstMatrix.Matrix, 1);
-                    }
-                    else
-                    {
-                        SecondMatrix = ChangeDimensions(SecondMatrix.Matrix, 1);
-                    }
-                });
-        public RelayCommand<string> SubtractRow => new RelayCommand<string>(
-            x =>
-            {
-                if (x == "firstMatrix")
-                {
-                    FirstMatrix = ChangeDimensions(FirstMatrix.Matrix, -1);
-                }
-                else
-                {
-                    SecondMatrix = ChangeDimensions(SecondMatrix.Matrix, -1);
-                }
-            });
-        public RelayCommand<string> AddColumn => new RelayCommand<string>(
-            x =>
-            {
-                if (x == "firstMatrix")
-                {
-                    FirstMatrix = ChangeDimensions(FirstMatrix.Matrix, 0, 1);
-                }
-                else
-                {
-                    SecondMatrix = ChangeDimensions(SecondMatrix.Matrix, 0, 1);
-                }
-            });
-        public RelayCommand<string> SubtractColumn => new RelayCommand<string>(
-            x =>
-            {
-                if (x == "firstMatrix")
-                {
-                    FirstMatrix = ChangeDimensions(FirstMatrix.Matrix, 0, -1);
-                }
-                else
-                {
-                    SecondMatrix = ChangeDimensions(SecondMatrix.Matrix, 0, -1);
-                }
-            });
     }
 }

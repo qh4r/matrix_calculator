@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:MatrixCalc"
         xmlns:controls="clr-namespace:MatrixCalc.Controls"
         xmlns:system="clr-namespace:System;assembly=mscorlib"
+        xmlns:models="clr-namespace:MatrixCalc.Models"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" MinWidth="800">
     <Window.DataContext>
@@ -21,8 +22,8 @@
                 </Viewbox>
             </Border>
         </DataTemplate>
-        <system:String x:Key="FirstMatrix">firstMatrix</system:String>
-        <system:String x:Key="SecondMatrix">secondMatrix</system:String>
+        <models:MatrixName x:Key="FirstMatrix">FirstMatrix</models:MatrixName>
+        <models:MatrixName x:Key="SecondMatrix">SecondMatrix</models:MatrixName>
         <Style TargetType="TextBlock">
             <Setter Property="VerticalAlignment" Value="Center"></Setter>
         </Style>
@@ -43,10 +44,10 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition MinHeight="60" Height="Auto"/>
             </Grid.RowDefinitions>
-            <ItemsControl Grid.Row="0" ItemsSource="{Binding FirstMatrix.CellsCollection}" ItemTemplate="{StaticResource CellTemplate}">
+            <ItemsControl Grid.Row="0" ItemsSource="{Binding MatrixesStore.FirstMatrix.CellsCollection}" ItemTemplate="{StaticResource CellTemplate}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <controls:BindableUniformGrid RowsCount="{Binding FirstMatrix.Rows}" ColumnsCount="{Binding FirstMatrix.Columns}"/>
+                        <controls:BindableUniformGrid RowsCount="{Binding MatrixesStore.FirstMatrix.Rows}" ColumnsCount="{Binding MatrixesStore.FirstMatrix.Columns}"/>
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
             </ItemsControl>
@@ -56,6 +57,7 @@
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
@@ -63,10 +65,11 @@
                 <Button Grid.Column="0" Command="{Binding SubtractRow}" CommandParameter="{StaticResource FirstMatrix}">-</Button>
                 <TextBlock Grid.Column="1"> - Rows - </TextBlock>
                 <Button Grid.Column="2" Command="{Binding AddRow}" CommandParameter="{StaticResource FirstMatrix}">+</Button>
-                <Button Command="{Binding PrintMatrix}" Grid.Column="3">print</Button>
-                <Button Grid.Column="4" Command="{Binding SubtractColumn}" CommandParameter="{StaticResource FirstMatrix}">-</Button>
-                <TextBlock Grid.Column="5"> - Columns -</TextBlock>
-                <Button Grid.Column="6" Command="{Binding AddColumn}" CommandParameter="{StaticResource FirstMatrix}">+</Button>
+                <Button Command="{Binding LoadMatrix}" Grid.Column="3" CommandParameter="{StaticResource FirstMatrix}">Load</Button>
+                <Button Command="{Binding SaveMatrix}" Grid.Column="4" CommandParameter="{StaticResource FirstMatrix}">Save</Button>
+                <Button Grid.Column="5" Command="{Binding SubtractColumn}" CommandParameter="{StaticResource FirstMatrix}">-</Button>
+                <TextBlock Grid.Column="6"> - Columns -</TextBlock>
+                <Button Grid.Column="7" Command="{Binding AddColumn}" CommandParameter="{StaticResource FirstMatrix}">+</Button>
             </Grid>
         </Grid>
         <ComboBox VerticalAlignment="Center" ItemsSource="{Binding OperationTypes}" FontSize="40"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
@@ -77,10 +80,10 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition MinHeight="60" Height="Auto"/>
             </Grid.RowDefinitions>
-            <ItemsControl Grid.Row="0" ItemsSource="{Binding SecondMatrix.CellsCollection}" ItemTemplate="{StaticResource CellTemplate}">
+            <ItemsControl Grid.Row="0" ItemsSource="{Binding MatrixesStore.SecondMatrix.CellsCollection}" ItemTemplate="{StaticResource CellTemplate}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <controls:BindableUniformGrid RowsCount="{Binding SecondMatrix.Rows}" ColumnsCount="{Binding SecondMatrix.Columns}"/>
+                        <controls:BindableUniformGrid RowsCount="{Binding MatrixesStore.SecondMatrix.Rows}" ColumnsCount="{Binding MatrixesStore.SecondMatrix.Columns}"/>
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
             </ItemsControl>
@@ -90,6 +93,7 @@
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
@@ -97,10 +101,11 @@
                 <Button Grid.Column="0" Command="{Binding SubtractRow}" CommandParameter="{StaticResource SecondMatrix}">-</Button>
                 <TextBlock Grid.Column="1"> - Rows -</TextBlock>
                 <Button Grid.Column="2" Command="{Binding AddRow}" CommandParameter="{StaticResource SecondMatrix}">+</Button>
-                <Button Command="{Binding PrintMatrix}" Grid.Column="3">print</Button>
-                <Button Grid.Column="4" Command="{Binding SubtractColumn}" CommandParameter="{StaticResource SecondMatrix}">-</Button>
-                <TextBlock Grid.Column="5"> - Columns -</TextBlock>
-                <Button Grid.Column="6" Command="{Binding AddColumn}" CommandParameter="{StaticResource SecondMatrix}">+</Button>
+                <Button Command="{Binding LoadMatrix}" Grid.Column="3" CommandParameter="{StaticResource SecondMatrix}">Load</Button>
+                <Button Command="{Binding SaveMatrix}" Grid.Column="4" CommandParameter="{StaticResource SecondMatrix}">Save</Button>
+                <Button Grid.Column="5" Command="{Binding SubtractColumn}" CommandParameter="{StaticResource SecondMatrix}">-</Button>
+                <TextBlock Grid.Column="6"> - Columns -</TextBlock>
+                <Button Grid.Column="7" Command="{Binding AddColumn}" CommandParameter="{StaticResource SecondMatrix}">+</Button>
             </Grid>
         </Grid>
         <Button Content="=" Grid.Column="3" VerticalAlignment="Center" Command="{Binding PerformCalculationCommand}"
