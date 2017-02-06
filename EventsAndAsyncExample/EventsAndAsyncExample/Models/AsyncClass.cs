@@ -51,6 +51,7 @@ namespace EventsAndAsyncExample.Models
                 Console.WriteLine("Finished group");
                 return inner;
             }).Result;
+            Console.WriteLine($"Result: {result.Aggregate("",(s,x) => $"{s}{x}, ")}");
         }
     }
 }
