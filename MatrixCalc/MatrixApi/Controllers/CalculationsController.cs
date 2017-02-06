@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Http;
+using System.Web.Http.Results;
 using MatrixApi.Models;
 using MatrixLibrary;
 
@@ -10,14 +12,11 @@ namespace MatrixApi.Controllers
 {
     public class CalculationsController : ApiController
     {
-        private readonly object _wronFormatMessage = new
-        {
-            message =
-                "Error provide 2 matrixes, correct format example: " +
-                "\"Matrix1\": { \"Rows\": 2, \"Columns\": 2, \"Content\":" +
-                " [2,3,1,51] }, \"Matrix2\": {\"Rows\": 2, \"Columns\": 2" +
-                ", \"Content\": [8,1,4,2]}"
-        };
+        private readonly HttpError wrongFormatMessage =
+            new HttpError("Error provide 2 matrixes, correct format example: " +
+                          "{\"Matrix1\": { \"Rows\": 2, \"Columns\": 2, \"Content\":" +
+                          " [2,3,1,51] }, \"Matrix2\": {\"Rows\": 2, \"Columns\": 2" +
+                          ", \"Content\": [8,1,4,2]}}");
 
         [HttpPost]
         public object Add(MatrixPair matrixes)
@@ -55,13 +54,10 @@ namespace MatrixApi.Controllers
                 }
                 catch (Exception e)
                 {
-                    return new
-                    {
-                        message = e.Message
-                    };
+                    return new HttpError(e.Message);
                 }
             }
-            return _wronFormatMessage;
+            return wrongFormatMessage;
         }
 
 
@@ -74,5 +70,6 @@ namespace MatrixApi.Controllers
         {
             return matrix?.Content != null && matrix.Content.Count() == matrix.Rows * matrix.Columns;
         }
+
     }
 }
