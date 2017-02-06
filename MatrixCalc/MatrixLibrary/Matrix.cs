@@ -121,7 +121,7 @@ namespace MatrixLibrary
         }
 
         public void SetRow(int rowNumber, IEnumerable<double> elements)
-        {
+        {            
             var newValues = elements as double[] ?? elements.ToArray();
             if (this.ColumnsCount != newValues.Count())
             {
