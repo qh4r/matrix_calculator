@@ -1,0 +1,1 @@
+# Nie byłem pewien czego dotyczyło 2 zadanie więc postanowiłem stworzyć metodę wykonującą kilka operacji na taskach. 
